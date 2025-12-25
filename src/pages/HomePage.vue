@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { getEventInfo } from "../services/api";
 import type { EventData } from "../types";
 import LoadingSpinner from "../components/LoadingSpinner.vue";
@@ -7,6 +7,7 @@ import CountdownTimer from "../components/CountdownTimer.vue";
 import RewardCard from "../components/RewardCard.vue";
 import EntryFormModal from "../components/EntryFormModal.vue";
 import { useScrollReveal } from "../composables/useScrollReveal";
+import { useCountdown } from "../composables/useCountdown";
 import GiftIcon from "../components/icons/GiftIcon.vue";
 import DocumentIcon from "../components/icons/DocumentIcon.vue";
 import WarningIcon from "../components/icons/WarningIcon.vue";
@@ -18,6 +19,8 @@ const loading = ref(true);
 const error = ref<string | null>(null);
 const isModalOpen = ref(false);
 const showSuccessMessage = ref(false);
+const showErrorMessage = ref(false);
+const errorMessage = ref("");
 
 const eventInfoRef = ref<HTMLElement | null>(null);
 const rewardsRef = ref<HTMLElement | null>(null);
@@ -57,7 +60,24 @@ onMounted(async () => {
   }
 });
 
+// 이벤트 종료 여부 확인
+const isEventExpired = computed(() => {
+  if (!eventData.value?.endDate) return false;
+  const { timeRemaining } = useCountdown(eventData.value.endDate);
+  return timeRemaining.value.isExpired;
+});
+
 const openModal = () => {
+  // 이벤트 종료된 경우
+  if (isEventExpired.value) {
+    errorMessage.value = "이벤트가 종료되었습니다";
+    showErrorMessage.value = true;
+    setTimeout(() => {
+      showErrorMessage.value = false;
+    }, 2500);
+    return;
+  }
+
   isModalOpen.value = true;
 };
 
@@ -262,6 +282,12 @@ const handleSuccess = () => {
         type="success"
         title="응모 완료!"
         message="행운을 빕니다"
+      />
+
+      <Toast
+        :show="showErrorMessage"
+        type="error"
+        :title="errorMessage"
       />
 
       <div class="mt-12 text-center">
