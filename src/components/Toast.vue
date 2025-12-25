@@ -1,11 +1,36 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import CheckIcon from "./icons/CheckIcon.vue";
+import ErrorIcon from "./icons/ErrorIcon.vue";
+
+type ToastType = "success" | "error";
 
 interface Props {
   show: boolean;
+  type?: ToastType;
+  title: string;
+  message?: string;
 }
 
-defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  type: "success",
+  message: "",
+});
+
+const toastConfig = computed(() => {
+  const configs = {
+    success: {
+      gradient: "from-green-500 via-emerald-500 to-teal-500",
+      icon: CheckIcon,
+    },
+    error: {
+      gradient: "from-red-500 via-rose-500 to-pink-500",
+      icon: ErrorIcon,
+    },
+  };
+
+  return configs[props.type];
+});
 </script>
 
 <template>
@@ -15,7 +40,10 @@ defineProps<Props>();
       class="fixed top-4 sm:top-8 left-1/2 -translate-x-1/2 z-50 w-auto max-w-lg px-4 sm:px-0"
     >
       <div
-        class="relative backdrop-blur-xl bg-linear-to-r from-green-500 via-emerald-500 to-teal-500 text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 rounded-xl sm:rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/20"
+        :class="[
+          'relative backdrop-blur-xl bg-linear-to-r text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 rounded-xl sm:rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/20',
+          toastConfig.gradient,
+        ]"
       >
         <div
           class="absolute inset-0 bg-white/10 rounded-xl sm:rounded-2xl animate-pulse"
@@ -24,13 +52,15 @@ defineProps<Props>();
           <div
             class="shrink-0 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
           >
-            <CheckIcon />
+            <component :is="toastConfig.icon" />
           </div>
           <div class="flex-1">
             <p class="font-bold text-sm sm:text-base md:text-lg mb-0.5">
-              응모 완료!
+              {{ title }}
             </p>
-            <p class="text-xs sm:text-sm text-white/90">행운을 빕니다</p>
+            <p v-if="message" class="text-xs sm:text-sm text-white/90">
+              {{ message }}
+            </p>
           </div>
         </div>
       </div>

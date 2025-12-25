@@ -11,7 +11,7 @@ import GiftIcon from "../components/icons/GiftIcon.vue";
 import DocumentIcon from "../components/icons/DocumentIcon.vue";
 import WarningIcon from "../components/icons/WarningIcon.vue";
 import RocketIcon from "../components/icons/RocketIcon.vue";
-import SuccessToast from "../components/SuccessToast.vue";
+import Toast from "../components/Toast.vue";
 
 const eventData = ref<EventData | null>(null);
 const loading = ref(true);
@@ -257,7 +257,12 @@ const handleSuccess = () => {
         </section>
       </div>
 
-      <SuccessToast :show="showSuccessMessage" />
+      <Toast
+        :show="showSuccessMessage"
+        type="success"
+        title="응모 완료!"
+        message="행운을 빕니다"
+      />
 
       <div class="mt-12 text-center">
         <button
