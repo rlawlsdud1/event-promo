@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { EventData, EntryFormData } from "../types";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = "https://6949099d1ee66d04a450f417.mockapi.io/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
