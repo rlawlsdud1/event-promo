@@ -19,8 +19,8 @@ const loading = ref(true);
 const error = ref<string | null>(null);
 const isModalOpen = ref(false);
 const showSuccessMessage = ref(false);
-const showErrorMessage = ref(false);
-const errorMessage = ref("");
+const showErrorToast = ref(false);
+const errorToastMessage = ref("");
 
 const eventInfoRef = ref<HTMLElement | null>(null);
 const rewardsRef = ref<HTMLElement | null>(null);
@@ -70,11 +70,11 @@ const isEventExpired = computed(() => {
 const openModal = () => {
   // 이벤트 종료된 경우
   if (isEventExpired.value) {
-    errorMessage.value = "이벤트가 종료되었습니다";
-    showErrorMessage.value = true;
+    errorToastMessage.value = "이벤트가 종료되었습니다";
+    showErrorToast.value = true;
     setTimeout(() => {
-      showErrorMessage.value = false;
-    }, 2500);
+      showErrorToast.value = false;
+    }, 4000);
     return;
   }
 
@@ -89,7 +89,15 @@ const handleSuccess = () => {
   showSuccessMessage.value = true;
   setTimeout(() => {
     showSuccessMessage.value = false;
-  }, 2500);
+  }, 4000);
+};
+
+const handleError = (message: string) => {
+  errorToastMessage.value = message;
+  showErrorToast.value = true;
+  setTimeout(() => {
+    showErrorToast.value = false;
+  }, 4000);
 };
 </script>
 
@@ -284,22 +292,18 @@ const handleSuccess = () => {
         message="행운을 빕니다"
       />
 
-      <Toast
-        :show="showErrorMessage"
-        type="error"
-        :title="errorMessage"
-      />
+      <Toast :show="showErrorToast" type="error" :title="errorToastMessage" />
 
       <div class="mt-12 text-center">
         <button
           @click="openModal"
-          class="group relative inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 md:px-10 py-4 sm:py-5 bg-linear-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white text-base sm:text-lg md:text-xl font-black rounded-2xl shadow-[0_10px_40px_rgba(16,185,129,0.5)] hover:shadow-[0_15px_50px_rgba(16,185,129,0.7)] transform hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden"
+          class="group relative inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 md:px-10 py-4 sm:py-5 bg-linear-to-r from-purple-700 via-purple-800 to-indigo-800 text-white text-base sm:text-lg md:text-xl font-black rounded-2xl shadow-[0_15px_50px_rgba(88,28,135,0.8)] hover:shadow-[0_20px_60px_rgba(88,28,135,0.9)] transform hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden"
         >
           <div
             class="absolute inset-0 bg-linear-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"
           ></div>
           <div
-            class="absolute inset-0 bg-linear-to-br from-purple-400/20 to-indigo-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            class="absolute inset-0 bg-linear-to-br from-indigo-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           ></div>
           <RocketIcon />
           <span class="relative z-10">지금 바로 응모하기</span>
@@ -315,6 +319,7 @@ const handleSuccess = () => {
     :is-open="isModalOpen"
     @close="closeModal"
     @success="handleSuccess"
+    @error="handleError"
   />
 </template>
 

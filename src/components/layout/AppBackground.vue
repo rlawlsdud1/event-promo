@@ -8,7 +8,7 @@ import giftsImage from "../../assets/gifts.jpg";
     :style="{ backgroundImage: `url(${giftsImage})` }"
   >
     <div
-      class="absolute inset-0 bg-linear-to-br from-purple-900/70 via-purple-800/60 to-indigo-900/70"
+      class="absolute inset-0 bg-linear-to-br from-purple-900/50 via-purple-800/40 to-indigo-900/50"
     ></div>
   </div>
 </template>

@@ -11,6 +11,7 @@ interface Props {
 interface Emits {
   (e: "close"): void;
   (e: "success"): void;
+  (e: "error", message: string): void;
 }
 
 const props = defineProps<Props>();
@@ -170,7 +171,8 @@ const handleSubmit = async () => {
   if (!validateForm()) return;
 
   if (await checkDuplicateEntry(formData.value.phone)) {
-    submitError.value = "중복 응모는 불가합니다.";
+    emit("error", "중복 응모는 불가합니다");
+    handleClose();
     return;
   }
 

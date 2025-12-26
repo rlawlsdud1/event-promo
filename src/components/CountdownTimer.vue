@@ -11,13 +11,7 @@ const { timeRemaining } = useCountdown(props.endDate);
 
 <template>
   <div class="w-full max-w-2xl mx-auto">
-    <div v-if="timeRemaining.isExpired" class="text-center py-8">
-      <p class="text-2xl md:text-3xl font-bold text-red-600">
-        이벤트가 종료되었습니다
-      </p>
-    </div>
-
-    <div v-else class="grid grid-cols-4 gap-3 md:gap-6">
+    <div class="grid grid-cols-4 gap-3 md:gap-6">
       <div class="group relative">
         <div
           class="absolute inset-0 bg-linear-to-br from-purple-400 to-indigo-400 rounded-2xl blur-md opacity-50 group-hover:opacity-75 transition-opacity duration-300"
