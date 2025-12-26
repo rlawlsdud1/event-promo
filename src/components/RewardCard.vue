@@ -60,7 +60,7 @@ const chipTextColor = computed(() => {
       class="reward-card relative w-full h-full transform-style-3d"
     >
       <div
-        class="card-face absolute w-full h-full backface-hidden rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 bg-white"
+        class="card-face card-front absolute w-full h-full backface-hidden rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 bg-white"
       >
         <div class="h-full flex flex-col relative">
           <div class="relative h-40 overflow-hidden">
@@ -124,7 +124,7 @@ const chipTextColor = computed(() => {
       </div>
 
       <div
-        class="card-face absolute w-full h-full backface-hidden rounded-2xl shadow-xl overflow-hidden rotate-y-180 bg-linear-to-br from-purple-600 via-purple-700 to-indigo-700"
+        class="card-face card-back absolute w-full h-full backface-hidden rounded-2xl shadow-xl overflow-hidden rotate-y-180 bg-linear-to-br from-purple-600 via-purple-700 to-indigo-700"
       >
         <div class="absolute inset-0 opacity-10">
           <div
@@ -192,6 +192,23 @@ const chipTextColor = computed(() => {
 
 .card-face {
   -webkit-font-smoothing: antialiased;
+}
+
+.card-front {
+  z-index: 2;
+  transform: rotateY(0deg) translateZ(1px);
+  -webkit-transform: rotateY(0deg) translateZ(1px);
+}
+
+.card-back {
+  z-index: 1;
+  transform: rotateY(180deg) translateZ(0px);
+  -webkit-transform: rotateY(180deg) translateZ(0px);
+}
+
+.reward-card {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .skeleton-shimmer {
