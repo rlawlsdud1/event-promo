@@ -27,7 +27,20 @@ Vue 3 + TypeScript로 구현한 인터랙티브 이벤트 응모 페이지입니
 - ✅ Vitest 기반 테스트 코드
 - ✅ GitHub Actions CI/CD
 
-## 3. 기술 스택 및 선정 이유
+## 3. 실행 방법
+
+```bash
+# 설치
+npm install
+
+# 개발 서버 실행
+npm run dev
+
+# 테스트 실행
+npm run test
+```
+
+## 4. 기술 스택 및 선정 이유
 
 - **Vue 3 (Composition API) + TypeScript**
 
@@ -61,7 +74,7 @@ Vue 3 + TypeScript로 구현한 인터랙티브 이벤트 응모 페이지입니
   - 무료 호스팅 및 자동 배포
   - CI/CD 파이프라인 구축
 
-## 4. 프로젝트 구조
+## 5. 프로젝트 구조
 
 ```
 src/
@@ -78,7 +91,7 @@ src/
 └── __tests__/          # 테스트 파일
 ```
 
-## 5. 트러블슈팅
+## 6. 트러블슈팅
 
 ### iOS Safari 카드 플립 애니메이션 버그
 
